@@ -1,14 +1,17 @@
 import {APIRequestContext, APIResponse} from "@playwright/test";
+import { AuthenticationProvider } from "../auth/AuthenticationProvider";
 
 export class ApiClient {
 
-    constructor(private request:APIRequestContext) {
-    }
+    constructor(private request:APIRequestContext,
+        private authProvider:AuthenticationProvider) {}
+    
 
     async get(url:string ,headers?:Record<string,string>):Promise<APIResponse>{
     
         console.log(`Get:${url}`);
         const start=Date.now();
+        const header=await this.authProvider?.getHeaders()??{};
         const response=await this.request.get(url,{headers:headers});
         const duration=Date.now()-start;
         console.log(`Time: ${duration} ms`);
