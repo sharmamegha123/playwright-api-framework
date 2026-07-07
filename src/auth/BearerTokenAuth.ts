@@ -1,5 +1,5 @@
 import {AuthenticationProvider} from './AuthenticationProvider';
-import {TokenManager} from './tokenManager'
+import {TokenManager} from './TokenManager'
 
 export class BearerTokenAuth implements AuthenticationProvider {
 

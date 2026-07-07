@@ -2,7 +2,7 @@ import { APIRequestContext } from "@playwright/test";
 import { UserApi } from "../api/UserApi";
 import { ApiClient } from "./ApiClient";
 import { BearerTokenAuth } from "../auth/BearerTokenAuth";
-import { TokenManager } from "../auth/tokenManager";
+import { TokenManager } from "../auth/TokenManager";
 
 export class ApiManager {
   public user: UserApi;
