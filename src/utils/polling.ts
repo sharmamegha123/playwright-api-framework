@@ -5,13 +5,13 @@ export class Polling implements PollingOptions {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  static async waitUntil<T>(
-    operation: () => Promise<ApiResult<T>>,
+  static async waitUntil<T extends { status: number | (() => number | Promise<number>) }>(
+    operation: () => Promise<T>,
 
-    isComplete: (result: ApiResult<T>) => boolean,
+    isComplete: (result: T) => boolean,
 
     options: PollingOptions = {},
-  ): Promise<ApiResult<T>> {
+  ): Promise<T> {
     const timeout = options.timeout ?? 30000;
     const interval = options.interval ?? 2000;
     const retryOnStatus = options.retryOnStatus ?? [];
@@ -20,17 +20,20 @@ export class Polling implements PollingOptions {
 
     while (Date.now() - start < timeout) {
       const result = await operation();
+      const status = typeof result.status === "function"
+        ? await result.status()
+        : result.status;
 
       // Retry for configured status codes
-      if (retryOnStatus.includes(result.status)) {
-        console.log(`Retrying because status is ${result.status}`);
+      if (retryOnStatus.includes(status)) {
+        console.log(`Retrying because status is ${status}`);
 
         await this.sleep(interval);
 
         continue;
       }
-      if (result.status >= 400) {
-        throw new Error(`Polling failed. Received status ${result.status}`);
+      if (status >= 400) {
+        throw new Error(`Polling failed. Received status ${status}`);
       }
 
       // Success

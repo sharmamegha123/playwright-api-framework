@@ -14,13 +14,13 @@ export class UserApi extends BaseApi{
         super(apiClient);
     }
     async getUser(id:number){
-        console.log("Base URL: ", BASE_URL + `/users/${id}`);
-        return this.get(BASE_URL + `/users/${id}`);
+        console.log("Base URL: ", BASE_URL +"and path is :"+`/users/${id}`);
+        return this.get(`/users/${id}`);
     }
 
     async createUser(body:CreateUserRequest): Promise<ApiResult<CreateUserResponse>> {
-        console.log("Base URL: ", BASE_URL + `/users`);
-        const response = await this.post(BASE_URL + `/users`, body);
+        console.log("Base URL post: ", BASE_URL + "and path is :"+`/users`);
+        const response = await this.post( `/users`, body);
         return {
             status: response.status(),
             body: (await response.json()) as CreateUserResponse,

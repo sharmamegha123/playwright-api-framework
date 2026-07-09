@@ -3,7 +3,7 @@ import { ApiManager } from "../../src/core/ApiManager";
 import { UserBuilder } from "../../src/builders/UserBuilder";
 import { Polling } from "../../src/utils/polling";
 test("Get User", async ({ request }) => {
-  const api = new ApiManager(request);
+  const api = new ApiManager(request,process.env.BASE_URL!);
 
   const response = await api.user.getUser(2);
 
@@ -17,33 +17,42 @@ test("Get User", async ({ request }) => {
 });
 
 test("Create User", async ({ request }) => {
-  const api = new ApiManager(request);
+  const api = new ApiManager(request,process.env.BASE_URL!);
   const payload = new UserBuilder()
     .withName("John Doe")
     .withJob("Software Engineer")
     .build();
   const response = await api.user.createUser(payload);
+  console.log("Response:", response);
   expect(response.status).toBe(201);
   expect(response.body.name).toBe(payload.name);
   expect(response.body.job).toBe(payload.job);
   expect(response.body.id).toBeTruthy();
   expect(response.body.createdAt).toBeTruthy();
 
+ /*  const order = await Polling.waitUntil(
+    () => api.user.getUser(2),
 
-const order = await Polling.waitUntil(
+    (result) => response.body.job === "COMPLETED",
 
-        () => api.user.getUser(2),
+    {
+      timeout: 30000,
+      interval: 2000,
+      retryOnStatus: [404, 500, 503],
+    },
+  );
 
-        result => response.body.job=== "COMPLETED",
+  expect(response.body.job).toBe("COMPLETED");
 
-         {
-        timeout: 30000,
-        interval: 2000,
-        retryOnStatus: [404, 500, 503]
+//playwright polling 
+
+expect.poll(
+  async()=>{
+    const response=await api.user.getUser(2);
+    return response.status(),{
+     
     }
 
-    );
-
-    expect(response.body.job).toBe("COMPLETED");
-
+  }).toBe("Completed")
+ */
 });
