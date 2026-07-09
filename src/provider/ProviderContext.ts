@@ -1,4 +1,4 @@
-import { UserController } from "./controllers/UserController";
+/* import { UserController } from "./controllers/UserController";
 import { UserRepository } from "./repository/UserRepository";
 import { UserService } from "./services/UserService";
 
@@ -22,4 +22,4 @@ export class ProviderContext {
     }
     
 
-}export const providerContext = new ProviderContext();
+}export const providerContext = new ProviderContext(); */

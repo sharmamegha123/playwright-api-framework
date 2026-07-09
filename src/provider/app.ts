@@ -1,16 +1,14 @@
 import express from "express";
-
-import { UserRepository } from "./repository/UserRepository";
+import { createUserRoutes } from "./routes/user.routes";
 import { UserService } from "./services/UserService";
 import { UserController } from "./controllers/UserController";
-import { createUserRoutes } from "./routes/user.routes";
-import { ProviderContext } from "./ProviderContext";
+import { userRepository } from "./repository/UserRepository";
 
 const app = express();
-//console.log("App module loaded:", import.meta.url);
-export const context = new ProviderContext();
 
-app.use(createUserRoutes(context.controller));
+const service = new UserService(userRepository);
+export const controller = new UserController(service);
 
+app.use(createUserRoutes(controller));
 
 export default app;

@@ -40,4 +40,4 @@ console.log("Current repository", this.users);
 
     }
 
-}
+}export const userRepository = new UserRepository();
