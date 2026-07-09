@@ -20,5 +20,6 @@ export class ProviderContext {
         this.controller = new UserController(this.service);
 
     }
+    
 
-}
+}export const providerContext = new ProviderContext();

@@ -6,10 +6,8 @@ import { UserController } from "./controllers/UserController";
 import { createUserRoutes } from "./routes/user.routes";
 import { ProviderContext } from "./ProviderContext";
 
-
-
 const app = express();
-
+//console.log("App module loaded:", import.meta.url);
 export const context = new ProviderContext();
 
 app.use(createUserRoutes(context.controller));

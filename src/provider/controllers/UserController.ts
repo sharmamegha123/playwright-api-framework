@@ -9,6 +9,7 @@ export class UserController {
 
         console.log("GET USER API CALLED");
         console.log("Controller repository:", (this.service as any).repository.instanceId);
+        console.log("Service object:", this.service);
         const id = Number(req.params.id);
 
         const user = this.service.getUser(id);
