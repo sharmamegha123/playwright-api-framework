@@ -2,18 +2,15 @@ import { test } from "@playwright/test";
 import { Verifier } from "@pact-foundation/pact";
 import path from "path";
 import { ProviderStateHandler } from "../../src/provider/stateHandler/ProviderStateHandler";
-import server from "../../src/provider/server";
-test.beforeAll(async () => {
- const serverModule = await import("../../src/provider/server");
+import { startServer } from "../../src/provider/server";
+let server:any;
 
-//console.log("server module:"+ serverModule.);
-console.log("server module: default"+serverModule.default);
-console.log("type of"+typeof serverModule.default);
+test.beforeAll(() => {
+  server = startServer(3001);
 });
 
 test.afterAll(async () => {
-  // close server if needed
-  //server.close()
+  await new Promise<void>((resolve) => server.close(() => resolve()));
 });
 
 
