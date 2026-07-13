@@ -9,7 +9,7 @@ export class ProviderStateHandler {
 
         userRepository.create({
           id: 2,
-          full_name: "Janet",
+          first_name: "Janet",
           email: "Janet@example.com",
         });
       },

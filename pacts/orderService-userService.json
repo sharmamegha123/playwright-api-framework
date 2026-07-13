@@ -55,6 +55,39 @@
         },
         "status": 200
       }
+    },
+    {
+      "description": "Get User - Not Found",
+      "providerStates": [
+        {
+          "name": "User with id 999 does not exist"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/users/999"
+      },
+      "response": {
+        "body": {
+          "error": "User not found"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.error": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 402
+      }
     }
   ],
   "metadata": {

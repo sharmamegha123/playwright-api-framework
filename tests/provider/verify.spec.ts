@@ -1,8 +1,9 @@
 import { test } from "@playwright/test";
-import { Verifier } from "@pact-foundation/pact";
-import path from "path";
+
 import { ProviderStateHandler } from "../../src/provider/stateHandler/ProviderStateHandler";
 import { startServer } from "../../src/provider/server";
+
+import { ContractRunner } from "../../src/runner/ContractRunner";
 let server:any;
 
 test.beforeAll(() => {
@@ -14,20 +15,33 @@ test.afterAll(async () => {
 });
 
 
-  test("Verify User Service Pact", async () => {
+test("Verify User Service Pact", async () => {
   
+try {
 
-  
-    const states = new ProviderStateHandler();
+        await ContractRunner.verify({
 
-    await new Verifier({
-      providerBaseUrl: "http://localhost:3001",
-      pactUrls: [
-        path.resolve("pacts/orderService-userService.json"),
-      ],
-      stateHandlers: states.getHandlers(),
-    }).verifyProvider();
-  } );
+            providerBaseUrl: "http://localhost:3001",
+
+            pactFiles: [
+
+                "pacts/orderService-userService.json"
+
+            ],
+            stateHandlers: new ProviderStateHandler().getHandlers()
+
+        });
+
+    }
+
+    finally {
+
+        server.close();
+
+    }
+
+
+  });
 
 
   //server.close();
